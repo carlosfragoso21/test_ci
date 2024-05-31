@@ -2,19 +2,21 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.8
+      nodejs: 20 # Especifica la versión de Node.js que deseas usar
     commands:
       - echo "Installing dependencies..."
       - npm install
   build:
     commands:
+      - echo "Building the project..."
+      - npm run build # Asumiendo que tienes un script de construcción definido en tu package.json
       - echo "Zipping deployment package..."
-      - cd lib
-      - zip -r9 ../deployment_package.zip .
-      - cd ..
-      - zip -g deployment_package.zip index.js
+      - zip -r deployment_package.zip . # Empaqueta todo el proyecto
   post_build:
     commands:
-      - echo "Updating lambda Function..."
-      - aws lambda update-function-code --dynamiclambdagittest github-to-lambda-demo --zip-file fileb://deployment_package.zip
+      - echo "Updating lambda function..."
+      - aws lambda update-function-code --function-name dynamiclambdagittest --zip-file fileb://deployment_package.zip
       - echo "DONE!!"
+artifacts:
+  files:
+    - deployment_package.zip
