@@ -1,17 +1,9 @@
 version: 0.2
 phases:
-  install:
-    runtime-versions:
-      nodejs: 20 # Especifica la versión de Node.js que deseas usar
-    commands:
-      - echo "Installing dependencies..."
-      - npm install
   build:
     commands:
-      - echo "Building the project..."
-      - npm run build # Asumiendo que tienes un script de construcción definido en tu package.json
       - echo "Zipping deployment package..."
-      - zip -r deployment_package.zip . # Empaqueta todo el proyecto
+      - zip -r deployment_package.zip . # Empaqueta todo el proyecto, incluidos los node_modules
   post_build:
     commands:
       - echo "Updating lambda function..."
